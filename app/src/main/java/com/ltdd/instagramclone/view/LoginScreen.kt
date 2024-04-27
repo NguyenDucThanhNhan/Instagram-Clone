@@ -4,11 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.databinding.ActivityLoginScreenBinding
 
 class LoginScreen : AppCompatActivity() {
@@ -17,6 +15,9 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.edtEmail.editText?.setText(intent.getStringExtra("EMAIL"))
+        binding.edtPassword.editText?.setText(intent.getStringExtra("PASSWORD"))
 
         binding.btnLogin.setOnClickListener {
             //Lay gia tri email ca password
@@ -37,7 +38,7 @@ class LoginScreen : AppCompatActivity() {
                         intent.putExtra("EMAIL", email)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
@@ -53,8 +54,8 @@ class LoginScreen : AppCompatActivity() {
             }
         }
 
-        binding.txtForgot.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordScreen::class.java)
+        binding.btnCreateNewAccount.setOnClickListener {
+            val intent = Intent(this, CreateAccountScreen::class.java)
             startActivity(intent)
         }
     }
