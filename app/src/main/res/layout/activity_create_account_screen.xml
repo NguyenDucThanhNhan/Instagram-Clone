@@ -9,6 +9,15 @@
     android:padding="12dp"
     tools:context=".view.LoginScreen">
 
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_marginStart="-170dp"
+        android:layout_height="30dp"
+        android:background="@color/white"
+        app:srcCompat="@drawable/icon_back"
+        android:contentDescription="TODO" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
@@ -54,14 +63,14 @@
         android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/edtPassword"
+            android:id="@+id/edtCode"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="390dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="32dp"
             android:background="@color/white"
-            android:hint="Password"
+            android:hint="Verify code"
             app:boxCornerRadiusBottomEnd="5dp"
             app:boxCornerRadiusBottomStart="5dp"
             app:boxCornerRadiusTopEnd="5dp"
@@ -72,55 +81,79 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="5dp"
                 android:background="#DBDBDB"
-                android:inputType="textPassword"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageButton
-            android:id="@+id/btnShowPassword"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="-95dp"
-            android:layout_marginTop="16dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_show_password" />
     </LinearLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edtNewPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/white"
+        android:hint="New password"
+        app:boxCornerRadiusBottomEnd="5dp"
+        app:boxCornerRadiusBottomStart="5dp"
+        app:boxCornerRadiusTopEnd="5dp"
+        app:boxCornerRadiusTopStart="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="390dp"
+            android:layout_height="50dp"
+            android:background="#DBDBDB"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edtConfirmPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:background="@color/white"
+        android:hint="Confirm password"
+        app:boxCornerRadiusBottomEnd="5dp"
+        app:boxCornerRadiusBottomStart="5dp"
+        app:boxCornerRadiusTopEnd="5dp"
+        app:boxCornerRadiusTopStart="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="390dp"
+            android:layout_height="50dp"
+            android:background="#DBDBDB"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnEnter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15sp"
         android:padding="10dp"
-        android:text="Log in"
+        android:text="Send code"
         android:textColor="@color/white"
         android:background="@drawable/login_button_background"
         android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/txtForgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Forgot password?"
-        android:textStyle="bold"
-        android:textSize="20sp" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCreateNewAccount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="115dp"
-        android:text="Create new account"
-        android:textColor="#008ECC"
-        android:background="@drawable/create_new_account_button_background"
-        android:textSize="20sp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/logo_meta" />
 
 </LinearLayout>
