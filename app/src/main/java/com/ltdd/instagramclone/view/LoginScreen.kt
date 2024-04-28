@@ -58,5 +58,10 @@ class LoginScreen : AppCompatActivity() {
             val intent = Intent(this, CreateAccountScreen::class.java)
             startActivity(intent)
         }
+
+        binding.txtForgot.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordScreen::class.java)
+            startActivity(intent)
+        }
     }
 }
