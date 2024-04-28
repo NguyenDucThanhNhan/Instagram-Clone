@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Instagram Clone</string>
+    <string name="title_of_dialog">Agree to Instagram\'s terms and policies.\n\n
+                                    Users of our services may have downloaded
+                                    your contact information to Instagram.\n\n
+
+                                    By clicking I agree, you agree to create the account
+                                    terms and accept the Terms and Policies
+                                    Instagram\'s Privacy and Cookie Policy.\n\n
+
+                                    The Privacy Policy describes the ways we
+                                    You can use information collected when you create an account
+                                    clause. For example, we use this information to
+                                    deliver, personalize and improve our products
+                                    yourself, including advertising.
+    </string>
 </resources>
