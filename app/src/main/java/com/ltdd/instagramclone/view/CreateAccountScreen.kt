@@ -4,10 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.databinding.ActivityCreateAccountScreenBinding
+import com.ltdd.instagramclone.databinding.CreateAccountDialogBinding
 import java.util.*
 import javax.mail.*
 import javax.mail.internet.InternetAddress
@@ -15,6 +19,7 @@ import javax.mail.internet.MimeMessage
 
 class CreateAccountScreen : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAccountScreenBinding
+    lateinit var dialog: AlertDialog
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,17 +57,8 @@ class CreateAccountScreen : AppCompatActivity() {
                     val password = binding.edtNewPassword.editText?.text.toString()
                     val confirmPassword = binding.edtConfirmPassword.editText?.text.toString()
                     if (isEmailValid(email) && isPasswordValid(password) && password == confirmPassword) {
-                        createAccount(email, password)
-                        //Reset
-                        binding.btnEnter.text = "Send code"
-                        binding.edtCode.visibility = View.GONE
-                        binding.edtNewPassword.visibility = View.GONE
-                        binding.edtConfirmPassword.visibility = View.GONE
-
-                        val intent = Intent(this, LoginScreen::class.java)
-                        intent.putExtra("EMAIL", email)
-                        intent.putExtra("PASSWORD", password)
-                        startActivity(intent)
+                        //Mo dialog dong y dieu khoan
+                        showDialogBinding(email, password)
                     } else {
                         Toast.makeText(this, "Invalid value, password at least 6 characters", Toast.LENGTH_LONG).show()
                     }
@@ -75,6 +71,33 @@ class CreateAccountScreen : AppCompatActivity() {
             val intent = Intent(this, LoginScreen::class.java)
             startActivity(intent)
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showDialogBinding(email: String, password: String) {
+        //Theme o day duoc lay tu values/themes/themes
+        val build = AlertDialog.Builder(this, R.style.ThemeCustom)
+        val dialogBinding = CreateAccountDialogBinding.inflate(LayoutInflater.from(this))
+        build.setView(dialogBinding.root)
+        dialogBinding.btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogBinding.btnAgree.setOnClickListener {
+            createAccount(email, password)
+            //Reset
+            binding.btnEnter.text = "Send code"
+            binding.edtCode.visibility = View.GONE
+            binding.edtNewPassword.visibility = View.GONE
+            binding.edtConfirmPassword.visibility = View.GONE
+
+            val intent = Intent(this, LoginScreen::class.java)
+            //Gui email va password de tu dong dien o login
+            intent.putExtra("EMAIL", email)
+            intent.putExtra("PASSWORD", password)
+            startActivity(intent)
+        }
+        dialog = build.create()
+        dialog.show()
     }
 
     private fun isEmailValid(email: String): Boolean {
