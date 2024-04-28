@@ -123,19 +123,6 @@ class CreateAccountScreen : AppCompatActivity() {
 
     }
 
-    private fun sendEmailResetPassword(email: String) {
-        val auth = FirebaseAuth.getInstance()
-
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    println("Email reset password đã được gửi thành công.")
-                } else {
-                    println("Lỗi: ${task.exception?.message}")
-                }
-            }
-    }
-
     private fun sendEmailRegisterAccount(email: String, verifyCode: Int) {
         val stringSenderEmail = "ndtnhan2003@gmail.com"
         val stringPasswordSenderEmail = "uaozzauifrkyougs"
