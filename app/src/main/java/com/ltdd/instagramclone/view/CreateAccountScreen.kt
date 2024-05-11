@@ -2,6 +2,7 @@ package com.ltdd.instagramclone.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +11,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.databinding.ActivityCreateAccountScreenBinding
 import com.ltdd.instagramclone.databinding.CreateAccountDialogBinding
@@ -27,7 +29,9 @@ import javax.mail.internet.MimeMessage
 class CreateAccountScreen : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAccountScreenBinding
     private lateinit var database: FirebaseDatabase
-    private lateinit var myRef: DatabaseReference
+    private lateinit var databaseRef: DatabaseReference
+    private lateinit var storageRef: StorageReference
+    private lateinit var imageRef: StorageReference
     lateinit var dialog: AlertDialog
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +41,11 @@ class CreateAccountScreen : AppCompatActivity() {
 
         //Tao firebase
         database = Firebase.database
-//        myRef = database.getReference("User")
-        myRef = FirebaseDatabase.getInstance().getReference("User")
+        databaseRef = FirebaseDatabase.getInstance().getReference("User")
+
+        //Tao storage
+        storageRef = FirebaseStorage.getInstance().reference
+        imageRef = storageRef.child("noProfilePicture.jpg")
 
         //Chuan bi
         var verifyCode = 1496
@@ -136,24 +143,24 @@ class CreateAccountScreen : AppCompatActivity() {
                 }
             }
 
-        //add vao realtime database
-        val id = myRef.push().key!!
-        val user = User(email, email, email, "This is my bio", "", id)
+        //Tao user trong databaseéau khi lay url thanh cong
+        imageRef.downloadUrl.addOnSuccessListener { uri: Uri ->
+            //Tao id va url
+            val id = databaseRef.push().key!!
+            val url = uri.toString()
 
-        myRef.child(id).setValue(user)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Add note successful!", Toast.LENGTH_SHORT).show()
-                    Log.d("DEBUG", "OK")
-                } else {
-                    Toast.makeText(this, "Add note unsuccessful!", Toast.LENGTH_SHORT).show()
-                    Log.d("DEBUG", "${task.exception?.message}")
+            //add vao realtime database
+            val user = User(email, email, email, "This is my bio", url, id)
+
+            databaseRef.child(id).setValue(user)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Create user successfully!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Create user unsuccessfully!", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
-            .addOnFailureListener { err ->
-                Toast.makeText(this, "Errỏ: ${err.message}", Toast.LENGTH_SHORT).show()
-            }
-
+        }
     }
 
     private fun sendEmailRegisterAccount(email: String, verifyCode: Int) {
