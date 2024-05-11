@@ -18,6 +18,9 @@
             android:name=".view.ForgotPasswordScreen"
             android:exported="false" />
         <activity
+            android:name=".view.ForgotPasswordScreen"
+            android:exported="false" />
+        <activity
             android:name=".view.CreateAccountScreen"
             android:exported="false" />
         <activity

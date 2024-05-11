@@ -33,7 +33,6 @@ class CreateAccountScreen : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
     private lateinit var imageRef: StorageReference
     lateinit var dialog: AlertDialog
-
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
