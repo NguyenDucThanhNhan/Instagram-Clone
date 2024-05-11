@@ -33,6 +33,7 @@ class CreateAccountScreen : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
     private lateinit var imageRef: StorageReference
     lateinit var dialog: AlertDialog
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +73,7 @@ class CreateAccountScreen : AppCompatActivity() {
                     Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                if (binding.edtCode.editText?.text.toString() == verifyCode.toString()){
+                if (binding.edtCode.editText?.text.toString() == verifyCode.toString()) {
                     //Tao tai khoan
                     val email = binding.edtEmail.editText?.text.toString()
                     val password = binding.edtNewPassword.editText?.text.toString()
@@ -81,8 +82,10 @@ class CreateAccountScreen : AppCompatActivity() {
                         //Mo dialog dong y dieu khoan
                         showDialogBinding(email, password)
                     } else {
-                        Toast.makeText(this, "Invalid value, password at least 6 characters", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Invalid value", Toast.LENGTH_LONG).show()
                     }
+                } else {
+                    Toast.makeText(this, "Invalid code", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -105,17 +108,7 @@ class CreateAccountScreen : AppCompatActivity() {
         }
         dialogBinding.btnAgree.setOnClickListener {
             createAccount(email, password)
-            //Reset
-            binding.btnEnter.text = "Send code"
-            binding.edtCode.visibility = View.GONE
-            binding.edtNewPassword.visibility = View.GONE
-            binding.edtConfirmPassword.visibility = View.GONE
-
-            val intent = Intent(this, LoginScreen::class.java)
-            //Gui email va password de tu dong dien o login
-            intent.putExtra("EMAIL", email)
-            intent.putExtra("PASSWORD", password)
-            startActivity(intent)
+            dialog.dismiss()
         }
         dialog = build.create()
         dialog.show()
@@ -137,30 +130,47 @@ class CreateAccountScreen : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    println("Tài khoản đã được tạo thành công.")
-                } else {
-                    println("Lỗi: ${task.exception?.message}")
+                    //Tao user trong database sau khi lay url thanh cong
+                    imageRef.downloadUrl.addOnSuccessListener { uri: Uri ->
+                        //Tao id va url
+                        val id = databaseRef.push().key!!
+                        val url = uri.toString()
+
+                        //add vao realtime database
+                        val user = User(email, email, email, "This is my bio", url, id)
+
+                        databaseRef.child(id).setValue(user)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        this,
+                                        "Create user successfully!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            .addOnFailureListener { error ->
+                                Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                            }
+                    }
+
+                    //Dieu huong qua login screen
+                    //Reset
+                    binding.btnEnter.text = "Send code"
+                    binding.edtCode.visibility = View.GONE
+                    binding.edtNewPassword.visibility = View.GONE
+                    binding.edtConfirmPassword.visibility = View.GONE
+
+                    val intent = Intent(this, LoginScreen::class.java)
+                    //Gui email va password de tu dong dien o login
+                    intent.putExtra("EMAIL", email)
+                    intent.putExtra("PASSWORD", password)
+                    startActivity(intent)
                 }
             }
-
-        //Tao user trong databaseéau khi lay url thanh cong
-        imageRef.downloadUrl.addOnSuccessListener { uri: Uri ->
-            //Tao id va url
-            val id = databaseRef.push().key!!
-            val url = uri.toString()
-
-            //add vao realtime database
-            val user = User(email, email, email, "This is my bio", url, id)
-
-            databaseRef.child(id).setValue(user)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Create user successfully!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "Create user unsuccessfully!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
+            .addOnFailureListener { error ->
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+            }
     }
 
     private fun sendEmailRegisterAccount(email: String, verifyCode: Int) {
@@ -186,20 +196,22 @@ class CreateAccountScreen : AppCompatActivity() {
         mimeMessage.addRecipient(Message.RecipientType.TO, InternetAddress(email))
 
         mimeMessage.subject = "Instagram Account Registration Confirmation Code"
-        mimeMessage.setText("Hello,\n" +
-                "\n" +
-                "We have received your request to register a new Instagram account. Below is the 4-digit confirmation code to complete the registration process:\n" +
-                "\n" +
-                "Confirmation Code: $verifyCode\n" +
-                "\n" +
-                "Please use this code to finalize the registration of your account on the Instagram app. Do not share this code with anyone to protect your personal information.\n" +
-                "\n" +
-                "If you have any questions or need assistance, feel free to contact us.\n" +
-                "\n" +
-                "We look forward to seeing you on Instagram!\n" +
-                "\n" +
-                "Best regards,\n" +
-                "Instagram Support Team")
+        mimeMessage.setText(
+            "Hello,\n" +
+                    "\n" +
+                    "We have received your request to register a new Instagram account. Below is the 4-digit confirmation code to complete the registration process:\n" +
+                    "\n" +
+                    "Confirmation Code: $verifyCode\n" +
+                    "\n" +
+                    "Please use this code to finalize the registration of your account on the Instagram app. Do not share this code with anyone to protect your personal information.\n" +
+                    "\n" +
+                    "If you have any questions or need assistance, feel free to contact us.\n" +
+                    "\n" +
+                    "We look forward to seeing you on Instagram!\n" +
+                    "\n" +
+                    "Best regards,\n" +
+                    "Instagram Support Team"
+        )
 
         val thread = Thread {
             try {
