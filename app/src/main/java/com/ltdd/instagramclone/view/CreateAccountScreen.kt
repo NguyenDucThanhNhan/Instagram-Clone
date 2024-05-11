@@ -4,14 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.databinding.ActivityCreateAccountScreenBinding
 import com.ltdd.instagramclone.databinding.CreateAccountDialogBinding
+import com.ltdd.instagramclone.model.User
 import java.util.*
 import javax.mail.*
 import javax.mail.internet.InternetAddress
@@ -19,12 +26,19 @@ import javax.mail.internet.MimeMessage
 
 class CreateAccountScreen : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAccountScreenBinding
+    private lateinit var database: FirebaseDatabase
+    private lateinit var myRef: DatabaseReference
     lateinit var dialog: AlertDialog
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateAccountScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Tao firebase
+        database = Firebase.database
+//        myRef = database.getReference("User")
+        myRef = FirebaseDatabase.getInstance().getReference("User")
 
         //Chuan bi
         var verifyCode = 1496
@@ -111,6 +125,7 @@ class CreateAccountScreen : AppCompatActivity() {
     }
 
     private fun createAccount(email: String, password: String) {
+        //add vao authentication
         val auth = FirebaseAuth.getInstance()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -119,6 +134,24 @@ class CreateAccountScreen : AppCompatActivity() {
                 } else {
                     println("Lỗi: ${task.exception?.message}")
                 }
+            }
+
+        //add vao realtime database
+        val id = myRef.push().key!!
+        val user = User(email, email, email, "This is my bio", "", id)
+
+        myRef.child(id).setValue(user)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Add note successful!", Toast.LENGTH_SHORT).show()
+                    Log.d("DEBUG", "OK")
+                } else {
+                    Toast.makeText(this, "Add note unsuccessful!", Toast.LENGTH_SHORT).show()
+                    Log.d("DEBUG", "${task.exception?.message}")
+                }
+            }
+            .addOnFailureListener { err ->
+                Toast.makeText(this, "Errỏ: ${err.message}", Toast.LENGTH_SHORT).show()
             }
 
     }
