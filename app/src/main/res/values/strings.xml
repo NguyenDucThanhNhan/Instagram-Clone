@@ -15,4 +15,6 @@
                                     yourself, including advertising.
     </string>
     <string name="notice_forgot_password">Email has been sent.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
