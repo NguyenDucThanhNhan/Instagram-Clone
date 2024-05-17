@@ -79,7 +79,6 @@ class CreateAccountScreen : AppCompatActivity() {
                     val confirmPassword = binding.edtConfirmPassword.editText?.text.toString()
                     if (isEmailValid(email) && isPasswordValid(password) && password == confirmPassword) {
                         //Mo dialog dong y dieu khoan
-
                         showDialogBinding(email, password)
                     } else {
                         Toast.makeText(this, "Invalid value", Toast.LENGTH_LONG).show()
