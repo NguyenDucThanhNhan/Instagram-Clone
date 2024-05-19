@@ -38,8 +38,6 @@ public class Gallery extends Fragment {
     private static final String TAG = "GalleryFragment";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("message");
-
-
     //constants
     private static final int NUM_GRID_COLUMNS = 4;
     private static final String TAG1 = "PhotoFragment";
@@ -52,28 +50,21 @@ public class Gallery extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Gallery mContext = Gallery.this;
 
-
-
     //widgets
     private GridView gridView;
     private ImageView galleryImage;
     private ProgressBar mProgressBar;
     private Spinner directorySpinner;
-
     //vars
     private ArrayList<String> directories;
     private String mAppend = "file:/";
     private String mSelectedImage;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,7 +76,7 @@ public class Gallery extends Fragment {
         mProgressBar.setVisibility(View.GONE);
         directories = new ArrayList<>();
         Log.d(TAG, "onCreateView: started.");
-        myRef.setValue("Hello, World!");
+        //myRef.setValue("Hello, World!");
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
         ImageView shareClose = (ImageView) view.findViewById(R.id.ivCloseShare);
         shareClose.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +117,9 @@ public class Gallery extends Fragment {
                 Log.d(TAG, "onClick: navigating to the final share screen.");
 
 
-//                Intent intent = new Intent(getActivity(), NextActivity.class);
-//                intent.putExtra(getString(R.string.selected_image), mSelectedImage);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), NextActivity.class);
+                intent.putExtra("selected_image", mSelectedImage);
+                startActivity(intent);
 
 //                }else{
 //                    Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);

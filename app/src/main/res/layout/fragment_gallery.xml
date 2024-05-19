@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/galleryImageView"
                 android:layout_width="match_parent"
-                android:layout_height="370dp"
+                android:layout_height="400dp"
                 android:scaleType="centerCrop" />
 
             <ProgressBar
