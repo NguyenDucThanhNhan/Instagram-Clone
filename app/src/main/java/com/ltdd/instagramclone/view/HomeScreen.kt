@@ -14,5 +14,7 @@ class HomeScreen : AppCompatActivity() {
 
         val email = intent.getStringExtra("EMAIL")
         binding.textView.text = email
+
+
     }
 }
