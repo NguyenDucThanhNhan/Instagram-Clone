@@ -136,7 +136,7 @@ class CreateAccountScreen : AppCompatActivity() {
                         val url = uri.toString()
 
                         //add vao realtime database
-                        val user = User(email, email, email, "This is my bio", url, id)
+                        val user = User(email, email, email, "This is my bio!", url, id)
 
                         databaseRef.child(id).setValue(user)
                             .addOnCompleteListener { task ->
