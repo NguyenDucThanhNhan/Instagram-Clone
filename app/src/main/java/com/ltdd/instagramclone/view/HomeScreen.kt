@@ -11,10 +11,5 @@ class HomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val email = intent.getStringExtra("EMAIL")
-        binding.textView.text = email
-
-
     }
 }
