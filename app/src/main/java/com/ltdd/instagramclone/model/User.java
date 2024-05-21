@@ -16,6 +16,9 @@ public class User {
         this.imageurl = imageurl;
         this.userid = userid;
     }
+    public User(){
+
+    }
 
     public String getName() {
         return name;

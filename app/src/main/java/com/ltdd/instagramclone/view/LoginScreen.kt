@@ -34,7 +34,7 @@ class LoginScreen : AppCompatActivity() {
             Firebase.auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val intent = Intent(this, HomeScreen::class.java)
+                        val intent = Intent(this, UserProfileScreen::class.java)
                         intent.putExtra("EMAIL", email)
                         startActivity(intent)
                     } else {
