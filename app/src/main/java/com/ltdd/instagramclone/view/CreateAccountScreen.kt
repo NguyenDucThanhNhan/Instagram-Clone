@@ -132,7 +132,7 @@ class CreateAccountScreen : AppCompatActivity() {
                     //Tao user trong database sau khi lay url thanh cong
                     imageRef.downloadUrl.addOnSuccessListener { uri: Uri ->
                         //Tao id va url
-                        val id = databaseRef.push().key!!
+                        val id = auth.currentUser?.uid!!
                         val url = uri.toString()
 
                         //add vao realtime database
