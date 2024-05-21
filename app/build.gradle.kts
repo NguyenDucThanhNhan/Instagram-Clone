@@ -54,6 +54,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+<<<<<<< HEAD
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -64,4 +65,10 @@ dependencies {
     implementation("com.sun.mail:android-mail:1.6.6")
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+=======
+
+    implementation("com.sun.mail:android-mail:1.6.6")
+    implementation("com.sun.mail:android-activation:1.6.7")
+    implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
+>>>>>>> origin/main
 }
