@@ -12,21 +12,9 @@ class HomeScreen : AppCompatActivity() {
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val email = intent.getStringExtra("EMAIL")
-//        binding.textView.text = email\
+        val email = intent.getStringExtra("EMAIL")
+        binding.textView.text = email
 
-        binding.btnSearch.setOnClickListener {
-            // Create an instance of SearchFragment
-            val searchFragment = searchFragment()
-            // Get the FragmentManager and start a transaction
-            val transaction = supportFragmentManager.beginTransaction()
-            // Replace the content with the new fragment
-            transaction.replace(R.id.homescreen, searchFragment);
-            // Optionally add the transaction to the back stack so the user can navigate back
-            transaction.addToBackStack(null)
-            // Commit the transaction
-            transaction.commit()
-        }
+
     }
-
 }
