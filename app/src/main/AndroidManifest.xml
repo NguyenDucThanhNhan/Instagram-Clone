@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
@@ -26,15 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InstagramClone"
         tools:targetApi="31">
+
         <activity
-<<<<<<< HEAD
             android:name=".view.UserProfileScreen"
-            android:exported="false"> <!-- Thêm android:exported="true" -->
-        </activity>
-=======
-            android:name=".view.ForgotPasswordScreen"
             android:exported="false" />
->>>>>>> origin/main
         <activity
             android:name=".view.ForgotPasswordScreen"
             android:exported="false" />
@@ -47,20 +41,12 @@
         <activity
             android:name=".view.LoginScreen"
             android:exported="true">
-<<<<<<< HEAD
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity> <!-- Xóa intent-filter ở đây -->
-=======
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
->>>>>>> origin/main
+
     </application>
 
 </manifest>
