@@ -1,5 +1,6 @@
 package com.ltdd.instagramclone.view
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -96,7 +97,8 @@ class UserProfileScreen : AppCompatActivity() {
 
                     "Edit Profile" -> {
 
-                        // go to EditProfile
+                        val intent = Intent(this, EditProfileActivity::class.java)
+                        startActivity(intent)
 
                     }
 
