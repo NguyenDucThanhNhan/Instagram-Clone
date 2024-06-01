@@ -43,6 +43,7 @@
                 android:textSize="20sp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:id="@+id/save"
                 >
 
             </TextView>
@@ -59,14 +60,15 @@
         android:background="@drawable/rounded_corners">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@mipmap/ic_launcher"
             android:layout_gravity="center"
-            android:id="@+id/image_profile"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_launcher">
 
         </de.hdodenhof.circleimageview.CircleImageView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,6 +76,7 @@
             android:layout_gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:id="@+id/tv_change"
             android:textColor="@color/link_blue">
 
         </TextView>

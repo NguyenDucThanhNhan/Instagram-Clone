@@ -95,7 +95,7 @@ class UserProfileScreen : AppCompatActivity() {
 
                 when (btn) {
 
-                    "Edit Profile" -> {
+                    "Chỉnh sửa trang cá nhân" -> {
 
                         val intent = Intent(this, EditProfileActivity::class.java)
                         startActivity(intent)

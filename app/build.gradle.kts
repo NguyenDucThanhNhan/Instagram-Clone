@@ -70,5 +70,6 @@ dependencies {
     implementation("com.sun.mail:android-mail:1.6.6")
     implementation("com.sun.mail:android-activation:1.6.7")
     implementation("com.nostra13.universalimageloader:universal-image-loader:1.9.5")
+
 //>>>>>>> origin/main
 }
