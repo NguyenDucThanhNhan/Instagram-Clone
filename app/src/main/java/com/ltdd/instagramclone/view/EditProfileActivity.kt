@@ -27,6 +27,8 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.model.User
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlin.coroutines.Continuation
 
 class EditProfileActivity : AppCompatActivity() {
@@ -57,12 +59,13 @@ class EditProfileActivity : AppCompatActivity() {
         // Lấy người dùng hiện tại từ Firebase Authentication
         firebaseUser = FirebaseAuth.getInstance().currentUser ?: return
 // Tham chiếu đến Firebase Storage
-        val storageRef = FirebaseStorage.getInstance().getReference("uploads")
+        storageRef = FirebaseStorage.getInstance().getReference("uploads")
 //
 // Kiểm tra người dùng hiện tại có tồn tại hay không
         firebaseUser?.let {
             // Tham chiếu đến Firebase Database với đường dẫn tới người dùng hiện tại
-            val reference = FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.uid)
+            val reference =
+                FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.uid)
 
             reference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -91,28 +94,38 @@ class EditProfileActivity : AppCompatActivity() {
             close.setOnClickListener { // Sử dụng lambda thay cho OnClickListener
                 finish() // Kết thúc Activity
             }
-//
-//            tvChange.setOnClickListener {
-//                CropImage.activity()
-//                    .setAspectRatio(1, 1)
-//                    .setCropShape(CropImageView.CropShape.OVAL)
-//                    .start(this@EditProfileActivity)
-//            }
-//
-//            imageProfile.setOnClickListener {
-//                CropImage.activity()
-//                    .setAspectRatio(1, 1)
-//                    .setCropShape(CropImageView.CropShape.OVAL)
-//                    .start(this@EditProfileActivity)
-//            }
+
+            tvChange.setOnClickListener {
+                openGallery()
+                CropImage.activity()
+                    .setAspectRatio(1, 1)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(this@EditProfileActivity)
+            }
+
+            imageProfile.setOnClickListener {
+                openGallery()
+                CropImage.activity()
+                    .setAspectRatio(1, 1)
+                    .setCropShape(CropImageView.CropShape.OVAL)
+                    .start(this@EditProfileActivity)
+            }
             save.setOnClickListener {
                 updateProfile(
                     fullname.text.toString(),
                     username.text.toString(),
                     bio.text.toString()
                 )
+                finish()
             }
         }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        val PICK_IMAGE_REQUEST = 1
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
     private fun updateProfile(fullname: String, username: String, bio: String) {
         Log.d("UpdateChangeUserProfile", "Update func open")
@@ -125,18 +138,21 @@ class EditProfileActivity : AppCompatActivity() {
         reference.updateChildren(hashMap)
         Log.d("UpdateChangeUserProfile", "Update success")
     }
+
     private fun getFileExtension(uri: Uri): String? {
         val contentResolver = contentResolver
         val mimeTypeMap = MimeTypeMap.getSingleton()
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
+
     private fun uploadImage() {
         val pd = ProgressDialog(this)
         pd.setMessage("Uploading")
         pd.show()
 
         if (mImageUri != null) {
-            val fileReference = storageRef.child("${System.currentTimeMillis()}.${getFileExtension(mImageUri!!)}")
+            val fileReference =
+                storageRef.child("${System.currentTimeMillis()}.${getFileExtension(mImageUri!!)}")
 
             uploadTask = fileReference.putFile(mImageUri!!)
             uploadTask?.continueWithTask(com.google.android.gms.tasks.Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
@@ -149,7 +165,8 @@ class EditProfileActivity : AppCompatActivity() {
                     val downloadUri = task.result
                     val myUrl = downloadUri.toString()
 
-                    val reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.uid)
+                    val reference =
+                        FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.uid)
 
                     val hashMap = hashMapOf<String, Any>(
                         "imageurl" to myUrl
@@ -173,13 +190,14 @@ class EditProfileActivity : AppCompatActivity() {
 
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
 
-//            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-//                val result = CropImage.getActivityResult(data)
-//                mImageUri = result.uri
-//                uploadImage()
-//            } else {
-//                Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            val result = CropImage.getActivityResult(data)
+            mImageUri = result.uri
+            uploadImage()
+        } else {
+            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show()
         }
     }
+}

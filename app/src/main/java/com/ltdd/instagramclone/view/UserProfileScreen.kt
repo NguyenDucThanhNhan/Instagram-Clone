@@ -31,6 +31,7 @@ class UserProfileScreen : AppCompatActivity() {
     private lateinit var fullname: TextView
     private lateinit var bio: TextView
     private lateinit var editProfile: Button
+    private lateinit var changeImage: ImageButton
     private lateinit var myFotos: ImageButton
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var profileId: String
@@ -66,6 +67,7 @@ class UserProfileScreen : AppCompatActivity() {
             editProfile = findViewById(R.id.edit_profile)
 
             myFotos = findViewById(R.id.my_photos)
+            changeImage = findViewById(R.id.change_profile_image_button)
             recyclerView = findViewById(R.id.posts_recycler_view)
             recyclerView.setHasFixedSize(true)
             val linearLayoutManager = GridLayoutManager(this, 3)
@@ -88,7 +90,10 @@ class UserProfileScreen : AppCompatActivity() {
             Log.d("UserProfileScreen", "Before initializing views")
 
 
-
+            changeImage.setOnClickListener{
+                val intent = Intent(this, EditProfileActivity::class.java)
+                startActivity(intent)
+            }
             editProfile.setOnClickListener {
 
                 val btn = editProfile.text.toString()

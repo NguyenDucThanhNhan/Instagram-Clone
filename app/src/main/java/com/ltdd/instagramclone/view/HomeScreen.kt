@@ -1,5 +1,6 @@
 package com.ltdd.instagramclone.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ltdd.instagramclone.R
@@ -11,13 +12,10 @@ class HomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-<<<<<<< HEAD
 
         val email = intent.getStringExtra("EMAIL")
         //binding.textView.text = email
 
-
-=======
         binding.btnSearch.setOnClickListener {
             // Create an instance of SearchFragment
             val searchFragment = searchFragment()
@@ -30,7 +28,10 @@ class HomeScreen : AppCompatActivity() {
             // Commit the transaction
             transaction.commit()
         }
->>>>>>> origin/main
+        binding.btnProfile.setOnClickListener{
+            val intent = Intent(this, UserProfileScreen::class.java)
+            startActivity(intent)
+        }
     }
 
 
