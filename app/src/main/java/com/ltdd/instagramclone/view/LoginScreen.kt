@@ -1,10 +1,11 @@
 package com.ltdd.instagramclone.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ltdd.instagramclone.databinding.ActivityLoginScreenBinding
@@ -31,7 +32,7 @@ class LoginScreen : AppCompatActivity() {
             }
 
             //Dang nhap
-            Firebase.auth.signInWithEmailAndPassword(email, password)
+            Firebase.auth.signInWithEmailAndPassword(email, password) //Firebase.auth.
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val intent = Intent(this, UserProfileScreen::class.java)

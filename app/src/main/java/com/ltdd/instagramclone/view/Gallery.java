@@ -46,6 +46,7 @@ public class Gallery extends Fragment {
     private static final int  CAMERA_REQUEST_CODE = 5;
 
     //Test Firebase(nhớ delete)
+    //Test fetch
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Gallery mContext = Gallery.this;
