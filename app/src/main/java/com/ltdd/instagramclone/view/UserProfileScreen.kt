@@ -3,10 +3,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +37,8 @@ class UserProfileScreen : AppCompatActivity() {
     private lateinit var editProfile: Button
     private lateinit var changeImage: ImageButton
     private lateinit var myFotos: ImageButton
+    private lateinit var postButton: ImageButton
+    private lateinit var moreOptions: ImageButton
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var profileId: String
     private lateinit var recyclerView: RecyclerView
@@ -56,6 +62,8 @@ class UserProfileScreen : AppCompatActivity() {
 
             posts = findViewById(R.id.posts_count)
 
+            postButton= findViewById(R.id.post_button)
+
             followers = findViewById(R.id.followers_count)
 
             following = findViewById(R.id.following_count)
@@ -67,6 +75,8 @@ class UserProfileScreen : AppCompatActivity() {
             editProfile = findViewById(R.id.edit_profile)
 
             myFotos = findViewById(R.id.my_photos)
+
+            moreOptions = findViewById(R.id.more_button)
             changeImage = findViewById(R.id.change_profile_image_button)
             recyclerView = findViewById(R.id.posts_recycler_view)
             recyclerView.setHasFixedSize(true)
@@ -77,23 +87,27 @@ class UserProfileScreen : AppCompatActivity() {
             recyclerView.adapter = photosPostAdapter
 
 
-            Log.d("UserProfileScreen", "Before initializing firebaseUser")
-
-            firebaseUser = FirebaseAuth.getInstance().currentUser!!
-
-            Log.d("UserProfileScreen", "Before initializing profileId")
-
-            val prefs = getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-
-            profileId = prefs.getString("profileid", "none") ?: "none"
-
-            Log.d("UserProfileScreen", "Before initializing views")
+            // Nhận userID từ Intent
+            val userID = intent.getStringExtra("userID")
+            if (userID != null) {
+                // Sử dụng userID để hiển thị thông tin người dùng
+                profileId = userID
+            } else {
+                // Nếu không có userID, sử dụng ID của người dùng hiện tại
+                firebaseUser = FirebaseAuth.getInstance().currentUser!!
+                profileId = firebaseUser.uid
+            }
 
 
             changeImage.setOnClickListener{
                 val intent = Intent(this, EditProfileActivity::class.java)
                 startActivity(intent)
             }
+            postButton.setOnClickListener{
+                val intent = Intent(this, NextActivity::class.java)
+                startActivity(intent)
+            }
+
             editProfile.setOnClickListener {
 
                 val btn = editProfile.text.toString()
@@ -134,6 +148,9 @@ class UserProfileScreen : AppCompatActivity() {
                 }
 
             }
+            options.setOnClickListener { view ->
+                showPopupMenu(view)
+            }
 
             fetchAndDisplayUserInfo()
 
@@ -148,7 +165,7 @@ class UserProfileScreen : AppCompatActivity() {
 
         }
         if (profileId == firebaseUser.uid) {
-            editProfile.text = "Edit Profile"
+            editProfile.text = "Chỉnh sửa trang cá nhân"
         } else {
             checkFollow()
         }
@@ -183,7 +200,7 @@ class UserProfileScreen : AppCompatActivity() {
     }
     private fun fetchAndDisplayUserInfo() {
         val userId = getCurrentUserId()
-        Log.d("UserProfileScreen", "Current user ID: $userId") // Thêm dòng log này để kiểm tra userId
+        Log.d("UserProfileScreen", "Current user ID: $profileId") // Thêm dòng log này để kiểm tra userId
         if (userId != null) {
             userInfo(userId)
         } else {
@@ -192,7 +209,7 @@ class UserProfileScreen : AppCompatActivity() {
     }
     private fun checkFollow() {
         val reference = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(firebaseUser.uid).child("following")
+            .child("Follow").child(profileId).child("following")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.child(profileId).exists()) {
@@ -207,6 +224,7 @@ class UserProfileScreen : AppCompatActivity() {
         })
     }
     private fun getFollowersAndFollowing() {
+        Log.d("UserProfileScreen Follow", "run success")
         val followersReference = FirebaseDatabase.getInstance().reference
             .child("Follow").child(profileId).child("followers")
         followersReference.addValueEventListener(object : ValueEventListener {
@@ -265,5 +283,25 @@ class UserProfileScreen : AppCompatActivity() {
                 // Handle possible errors
             }
         })
+    }
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        val inflater: MenuInflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.menu_profile_options, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.logout -> {
+                    // Thực hiện chức năng đăng xuất
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(this, LoginScreen::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 }
