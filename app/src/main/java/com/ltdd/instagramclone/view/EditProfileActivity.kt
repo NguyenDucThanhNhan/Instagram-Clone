@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
@@ -39,6 +40,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var fullname: EditText
     private lateinit var username: EditText
     private lateinit var bio: EditText
+    private lateinit var changePassword :AppCompatButton
     private lateinit var firebaseUser: FirebaseUser
     private var mImageUri: Uri? = null
     private var uploadTask: StorageTask<UploadTask.TaskSnapshot>? = null
@@ -55,6 +57,7 @@ class EditProfileActivity : AppCompatActivity() {
         fullname = findViewById(R.id.fullname)
         username = findViewById(R.id.username)
         bio = findViewById(R.id.bio)
+        changePassword = findViewById(R.id.btnChangePassword)
 
         // Lấy người dùng hiện tại từ Firebase Authentication
         firebaseUser = FirebaseAuth.getInstance().currentUser ?: return
@@ -117,6 +120,10 @@ class EditProfileActivity : AppCompatActivity() {
                     bio.text.toString()
                 )
                 finish()
+            }
+            changePassword.setOnClickListener{
+                val intent = Intent(this, ChangePasswordActivity::class.java)
+                startActivity(intent)
             }
         }
     }
