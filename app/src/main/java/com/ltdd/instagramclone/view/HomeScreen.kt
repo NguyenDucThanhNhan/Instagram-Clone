@@ -11,6 +11,13 @@ class HomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+<<<<<<< HEAD
+
+        val email = intent.getStringExtra("EMAIL")
+        //binding.textView.text = email
+
+
+=======
         binding.btnSearch.setOnClickListener {
             // Create an instance of SearchFragment
             val searchFragment = searchFragment()
@@ -23,6 +30,7 @@ class HomeScreen : AppCompatActivity() {
             // Commit the transaction
             transaction.commit()
         }
+>>>>>>> origin/main
     }
 
 
