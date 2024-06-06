@@ -8,9 +8,6 @@ public class User {
     private String imageurl;
     private String userid;
 
-    public User() {
-        // Khởi tạo các giá trị mặc định nếu cần
-    }
 
     public User(String name, String email, String username, String bio, String imageurl, String userid) {
         this.name = name;
@@ -19,6 +16,9 @@ public class User {
         this.bio = bio;
         this.imageurl = imageurl;
         this.userid = userid;
+    }
+    public User(){
+
     }
 
     public String getName() {

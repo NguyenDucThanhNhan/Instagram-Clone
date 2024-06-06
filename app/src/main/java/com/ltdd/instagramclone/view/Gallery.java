@@ -1,9 +1,12 @@
 package com.ltdd.instagramclone.view;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -31,6 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -46,6 +50,7 @@ public class Gallery extends Fragment {
     private static final int  CAMERA_REQUEST_CODE = 5;
 
     //Test Firebase(nhớ delete)
+    //Test fetch
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Gallery mContext = Gallery.this;
@@ -219,6 +224,27 @@ public class Gallery extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            if (photo != null) {
+                // Chuyển ảnh sang Activity tiếp theo
+                Intent intent = new Intent(getActivity(), NextActivity.class);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                intent.putExtra("photo", byteArray);
+                Log.e(TAG, "onActivityResult: Photo is null" + photo);
+                startActivity(intent);
+            } else {
+                Log.e(TAG, "onActivityResult: Photo is null");
+            }
+        } else {
+            Log.e(TAG, "onActivityResult: Failed to capture image");
+        }
+    }
 
     private void setImage(String imgURL, ImageView image, String append){
         Log.d(TAG, "setImage: setting image");

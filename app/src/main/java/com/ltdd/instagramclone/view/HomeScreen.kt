@@ -13,6 +13,10 @@ class HomeScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val email = intent.getStringExtra("EMAIL")
+        //binding.textView.text = email
+
         binding.btnSearch.setOnClickListener {
             val fragment = searchFragment()
             supportFragmentManager.beginTransaction()
@@ -26,6 +30,10 @@ class HomeScreen : AppCompatActivity() {
             val intent = Intent(this, HomeScreen::class.java)
             startActivity(intent)
 
+        }
+        binding.btnProfile.setOnClickListener{
+            val intent = Intent(this, UserProfileScreen::class.java)
+            startActivity(intent)
         }
     }
 
