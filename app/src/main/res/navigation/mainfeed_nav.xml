@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainfeed_nav"
+    app:startDestination="@id/mainFeedFragment">
+    <fragment
+        android:id="@+id/mainFeedFragment"
+        android:name="com.ltdd.instagramclone.view.MainFeedFragment"
+        android:label="fragment_main_feed"
+        tools:layout="@layout/fragment_main_feed" />
+</navigation>
