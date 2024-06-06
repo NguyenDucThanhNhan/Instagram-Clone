@@ -23,8 +23,11 @@ import com.google.android.gms.common.images.ImageManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -52,6 +55,7 @@ public class NextActivity extends AppCompatActivity {
 
     private EditText mCaption;
     private File imageUrl;
+    private int imageCount = 0;
 
 
     @Override
@@ -65,18 +69,46 @@ public class NextActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
         mStorageReference = FirebaseStorage.getInstance().getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                imageCount = getImageCount(snapshot);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //getIntent:
         Intent intent = getIntent();
-        imageUrl = new File(Objects.requireNonNull(intent.getStringExtra("selected_image")));
+
+        Log.d(TAG, "onItemClick: selected an image: " + imageUrl);
+        if(intent.hasExtra("selected_image")) {
+            imageUrl = new File(Objects.requireNonNull(intent.getStringExtra("selected_image")));
+            setImage(imageUrl);
+        }
+        else {
+            setImageByBitmap(intent.getByteArrayExtra("photo"));
+
+        }
 
         //Set Image to ImageView
-        setImage(imageUrl);
+
+
         TextView nextScreen = (TextView) findViewById(R.id.tvShare);
         nextScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadNewPhoto(mCaption.getText().toString(), 1, imageUrl, null);
+                if(intent.hasExtra("selected_image")) {
+                    uploadNewPhoto(mCaption.getText().toString(), imageCount, imageUrl, null);
+                }
+                else {
+                    Bitmap photo = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("photo"), 0, intent.getByteArrayExtra("photo").length);
+                    uploadNewPhoto(mCaption.getText().toString(), imageCount, null, photo);
+                }
 
             }
         });
@@ -88,6 +120,16 @@ public class NextActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void setImageByBitmap(byte[] byteArray) {
+        ImageView image = (ImageView) findViewById(R.id.imageShare);
+        if (byteArray != null) {
+            Bitmap photo = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            image.setImageBitmap(photo);
+        } else {
+            Log.e(TAG, "onCreate: byteArray is null");
+            Toast.makeText(this, "Failed to receive image", Toast.LENGTH_SHORT).show();
+        }
     }
     private void setImage(File imageUrl) {
 
@@ -223,6 +265,16 @@ public class NextActivity extends AppCompatActivity {
                         .getUid()).child(newPhotoKey).setValue(photo);
         myRef.child("photos").child(newPhotoKey).setValue(photo);
 
+    }
+    public int getImageCount(DataSnapshot dataSnapshot){
+        int count = 0;
+        for(DataSnapshot ds: dataSnapshot
+                .child("user_photos")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .getChildren()){
+            count++;
+        }
+        return count;
     }
 
 
