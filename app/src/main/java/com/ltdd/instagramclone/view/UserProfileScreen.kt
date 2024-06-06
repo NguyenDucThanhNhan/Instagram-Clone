@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.adapter.PhotosPostAdapter
+import com.ltdd.instagramclone.model.Photo
 import com.ltdd.instagramclone.model.Post
 import com.ltdd.instagramclone.model.User
 
@@ -43,7 +44,7 @@ class UserProfileScreen : AppCompatActivity() {
     private lateinit var profileId: String
     private lateinit var recyclerView: RecyclerView
     private lateinit var photosPostAdapter: PhotosPostAdapter
-    private lateinit var postList: ArrayList<Post>
+    private lateinit var postList: ArrayList<Photo>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,7 +61,7 @@ class UserProfileScreen : AppCompatActivity() {
 
             options = findViewById(R.id.more_button)
 
-            posts = findViewById(R.id.posts_count)
+            posts = findViewById(R.id.Post_count)
 
             postButton= findViewById(R.id.post_button)
 
@@ -247,32 +248,33 @@ class UserProfileScreen : AppCompatActivity() {
         })
     }
     private fun getNrPosts() {
-        val reference = FirebaseDatabase.getInstance().getReference("Posts")
+        val reference = FirebaseDatabase.getInstance().getReference("user_photos").child(profileId)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var postCount = 0
                 for (snapshot in dataSnapshot.children) {
-                    val post = snapshot.getValue(Post::class.java)
-                    if (post?.postPublisherId == profileId) {
+                    val post = snapshot.getValue(Photo::class.java)
+                    if (post?.user_id == profileId) {
                         postCount++
                     }
                 }
                 posts.text = postCount.toString()
+                Log.d("UserProfilePost", "get success:")
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("UserProfileScreen", "Failed to get number of posts: ${databaseError.message}")
             }
         })
     }
-    private fun myPhotos(){
-        val reference = FirebaseDatabase.getInstance().getReference("Posts")
+    private fun myPhotos() {
+        val reference = FirebaseDatabase.getInstance().getReference("user_photos").child(profileId)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 postList.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val post = snapshot.getValue(Post::class.java)
-                    if (post?.postPublisherId == profileId) {
-                        postList.add(post)
+                    val photo = snapshot.getValue(Photo::class.java)
+                    if (photo?.user_id == profileId) {  // Thay đổi từ post?.user_id thành photo?.userId
+                        postList.add(photo)
                     }
                 }
                 postList.reverse()

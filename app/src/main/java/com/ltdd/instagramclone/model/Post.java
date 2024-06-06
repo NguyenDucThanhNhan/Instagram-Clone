@@ -12,6 +12,7 @@ public class Post {
         this.postId = postId;
         this.postPublisherId = postPublisherId;
     }
+    public Post(){}
 
     public String getDescription() {
         return description;
