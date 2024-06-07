@@ -84,6 +84,22 @@ public class CommentsActivity extends AppCompatActivity {
         getImage();
         readComments();
     }
+    private void addNotifications () {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+        "Notifications").child(publisherid);
+        // Lấy thời gian hiện tại và định dạng thành chuỗi ISO 8601
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        String currentDateAndTime = sdf.format(new Date());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", firebaseUser.getUid());
+        hashMap.put("text", "Commented: " + addcomment.getText().toString());
+        hashMap.put("postid", postid);
+        hashMap.put("ispost", true);
+        hashMap.put("time", currentDateAndTime);
+        reference.push().setValue(hashMap);
+
+    }
     private void addcomment () {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
@@ -100,6 +116,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         // Đẩy giá trị HashMap vào Firebase
         reference.push().setValue(hashMap);
+        addNotifications();
         addcomment.setText("");
     }
     private void getImage () {

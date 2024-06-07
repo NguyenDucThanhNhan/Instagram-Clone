@@ -30,8 +30,11 @@ import com.ltdd.instagramclone.model.Photo;
 import com.ltdd.instagramclone.model.User;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
@@ -131,6 +134,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                     hashMap.put("UserID_like",firebaseUser.getUid() );
                     reference.push().setValue(hashMap);
 
+                    addNotification(photo.getUser_id(),photo.getPhoto_id());
 
 
 
@@ -279,5 +283,19 @@ private void isLikes(String postid, final ImageView imageView) {
             }
         });
     }
+    private void addNotification(String userid, String postid)
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance() .getReference(  "Notifications").child(userid);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        String currentDateAndTime = sdf.format(new Date());
+        HashMap<String ,Object> hashMap = new HashMap<>();
+        hashMap.put("userid", firebaseUser.getUid());
+        hashMap.put("text", "liked your post");
+        hashMap.put ("postid", postid);
+        hashMap.put("ispost",true);
+        hashMap.put("time", currentDateAndTime);
+        reference.push() .setValue (hashMap) ;
+    }
+
 }
 
