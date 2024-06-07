@@ -37,13 +37,19 @@
             android:exported="false" />
      
         <activity
-            android:name=".view.CommentsActivity"
+
 
             android:name=".view.ChangePasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".view.CommentsActivity"
+
+
+            android:exported="false" />
+        <activity
             android:name=".view.EditProfileActivity"
             android:exported="false" />
+
         <activity
             android:name=".view.UserProfileScreen"
             android:exported="false" />
@@ -55,6 +61,9 @@
             android:exported="false" />
         <activity
             android:name=".view.HomeScreen"
+            android:exported="false" />
+        <activity
+            android:name=".view.NextActivity"
             android:exported="false" />
         <activity
             android:name=".view.LoginScreen"
