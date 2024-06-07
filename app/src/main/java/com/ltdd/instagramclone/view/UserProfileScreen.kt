@@ -14,15 +14,18 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.adapter.PhotosPostAdapter
+import com.ltdd.instagramclone.databinding.ActivityUserProfileScreenBinding
 import com.ltdd.instagramclone.model.Photo
 import com.ltdd.instagramclone.model.Post
 import com.ltdd.instagramclone.model.User
@@ -45,14 +48,45 @@ class UserProfileScreen : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var photosPostAdapter: PhotosPostAdapter
     private lateinit var postList: ArrayList<Photo>
+
+    private lateinit var binding: ActivityUserProfileScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityUserProfileScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        Log.d("UserProfileScreen", "onCreate started")
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
-        enableEdgeToEdge()
-
-        setContentView(R.layout.activity_user_profile_screen)
+        val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    startActivity(Intent(this, HomeScreen::class.java))
+                    true
+                }
+                R.id.search -> {
+                    val searchFragment = searchFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(R.id.fragment_container, searchFragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    true
+                }
+                R.id.post -> {
+                    // startActivity(Intent(this, AddActivity::class.java))
+                    true
+                }
+                R.id.reels -> {
+                    // startActivity(Intent(this, ReelsActivity::class.java))
+                    true
+                }
+                R.id.profile -> {
+                    startActivity(Intent(this, UserProfileScreen::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
 
 
@@ -95,10 +129,11 @@ class UserProfileScreen : AppCompatActivity() {
                 profileId = userID
             } else {
                 // Nếu không có userID, sử dụng ID của người dùng hiện tại
-                firebaseUser = FirebaseAuth.getInstance().currentUser!!
                 profileId = firebaseUser.uid
             }
 
+            // Debug log
+            Log.d("UserProfileScreen", "Current user ID: $profileId")
 
             changeImage.setOnClickListener{
                 val intent = Intent(this, EditProfileActivity::class.java)
@@ -131,6 +166,7 @@ class UserProfileScreen : AppCompatActivity() {
                         FirebaseDatabase.getInstance().reference.child("Follow").child(profileId)
 
                             .child("followers").child(firebaseUser.uid).setValue(true)
+                        editProfile.text = "Following"
 
                     }
 
@@ -143,7 +179,7 @@ class UserProfileScreen : AppCompatActivity() {
                         FirebaseDatabase.getInstance().reference.child("Follow").child(profileId)
 
                             .child("followers").child(firebaseUser.uid).removeValue()
-
+                        editProfile.text = "Follow"
                     }
 
                 }
@@ -203,23 +239,28 @@ class UserProfileScreen : AppCompatActivity() {
         val userId = getCurrentUserId()
         Log.d("UserProfileScreen", "Current user ID: $profileId") // Thêm dòng log này để kiểm tra userId
         if (userId != null) {
-            userInfo(userId)
+            userInfo(profileId)
         } else {
             Log.d("UserProfileScreen", "User not logged in")
         }
     }
     private fun checkFollow() {
         val reference = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(profileId).child("following")
-        reference.addValueEventListener(object : ValueEventListener {
+            .child("Follow").child(firebaseUser.uid).child("following").child(profileId)
+
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.child(profileId).exists()) {
-                    editProfile.tag = "following"
+                if (dataSnapshot.exists()) {
+                    // Đã theo dõi, hiển thị "Following"
+                    editProfile.text = "following"
                 } else {
-                    editProfile.tag = "follow"
+                    // Chưa theo dõi, hiển thị "Follow"
+                    editProfile.text = "follow"
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
+                // Xử lý lỗi nếu có
                 Log.d("UserProfileScreen", "Failed to check follow status: ${databaseError.message}")
             }
         })

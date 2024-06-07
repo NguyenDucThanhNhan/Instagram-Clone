@@ -1,8 +1,11 @@
 package com.ltdd.instagramclone.adapter;
 
+import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ltdd.instagramclone.view.DetailPostFragment;
 import com.ltdd.instagramclone.view.List_likeActivity;
 import com.ltdd.instagramclone.R;
 import com.ltdd.instagramclone.Utils.TimeUtils;
@@ -78,6 +83,29 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         nrLikes(holder.likes,photo.getPhoto_id());
         getComments(photo.getPhoto_id(),holder.comments);
 
+        holder.post_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("postid", photo.getPhoto_id());
+                bundle.putString("publisherid", photo.getUser_id());
+
+                // Log bundle data
+                Log.d(TAG, "Bundle data: postid=" + photo.getPhoto_id() + ", publisherid=" + photo.getUser_id());
+
+                DetailPostFragment detailPostFragment = new DetailPostFragment();
+                detailPostFragment.setArguments(bundle);
+
+                ((FragmentActivity) mContext).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.homescreen, detailPostFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                // Log fragment transaction
+                Log.d(TAG, "DetailPostFragment transaction committed.");
+            }
+        });
         holder.tv_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
