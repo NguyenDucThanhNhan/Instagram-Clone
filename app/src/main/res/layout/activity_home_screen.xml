@@ -94,8 +94,8 @@
 
             <ImageButton
                 android:id="@+id/btn_home"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@color/white"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/icon_home" />
@@ -107,8 +107,8 @@
 
             <ImageButton
                 android:id="@+id/btn_search"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@color/white"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/icon_search" />
@@ -120,8 +120,8 @@
 
             <ImageButton
                 android:id="@+id/btn_post"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@color/white"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/icon_post" />
@@ -133,8 +133,8 @@
 
             <ImageButton
                 android:id="@+id/btn_reels"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@color/white"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/icon_reels" />
@@ -146,8 +146,8 @@
 
             <ImageButton
                 android:id="@+id/btn_profile"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:background="@color/white"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/image_no_avatar" />
