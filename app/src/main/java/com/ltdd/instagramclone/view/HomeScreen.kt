@@ -31,6 +31,15 @@ class HomeScreen : AppCompatActivity() {
             startActivity(intent)
 
         }
+        binding.btnPost.setOnClickListener {
+            val fragment = Gallery()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homescreen, fragment)
+
+                .addToBackStack(null) // optional: add to back stack if you want to be able to navigate back
+                .commit()
+            binding.fragmentContainerView4.visibility=View.GONE;
+        }
         binding.btnProfile.setOnClickListener{
             val intent = Intent(this, UserProfileScreen::class.java)
             startActivity(intent)
