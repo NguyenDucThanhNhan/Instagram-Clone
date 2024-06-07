@@ -25,7 +25,16 @@ import com.ltdd.instagramclone.model.User;
 import com.ltdd.instagramclone.view.UserProfileScreen;
 import com.squareup.picasso.Picasso;
 
+
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.ArrayList;
+
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -78,7 +87,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     FirebaseDatabase.getInstance().getReference().child("Follow")
                             .child(user.getUserid()).child("followers")
                             .child(currentUser.getUid()).setValue(true);
+
+
+                    addNotifications(user.getUserid());
+                }
+                else
+                {
+
                 } else {
+
                     FirebaseDatabase.getInstance().getReference().child("Follow")
                             .child(currentUser.getUid()).child("following")
                             .child(user.getUserid()).removeValue();
@@ -152,4 +169,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             }
         });
     }
+
+    private void addNotifications (String userid) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(
+                "Notifications").child(userid);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+        String currentDateAndTime = sdf.format(new Date());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("userid", currentUser.getUid());
+        hashMap.put("text", "started following you");
+        hashMap.put("postid", "");
+        hashMap.put("ispost", false);
+        hashMap.put("time", currentDateAndTime);
+        reference.push().setValue(hashMap);
+    }
+
 }

@@ -17,7 +17,10 @@ import com.google.firebase.database.ValueEventListener
 import com.ltdd.instagramclone.R
 import com.ltdd.instagramclone.adapter.StoryAdapter
 import com.ltdd.instagramclone.databinding.ActivityHomeScreenBinding
+
+import com.ltdd.instagramclone.model.Notification
 import com.ltdd.instagramclone.model.Story
+
 
 class HomeScreen : AppCompatActivity() {
     private lateinit var binding: ActivityHomeScreenBinding
@@ -45,6 +48,11 @@ class HomeScreen : AppCompatActivity() {
             startActivity(intent)
 
         }
+        binding.btNotification.setOnClickListener{
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+
+        }
         binding.btnPost.setOnClickListener {
             val fragment = Gallery()
             supportFragmentManager.beginTransaction()
@@ -58,7 +66,6 @@ class HomeScreen : AppCompatActivity() {
             val intent = Intent(this, UserProfileScreen::class.java)
             startActivity(intent)
         }
-
 
 
     }

@@ -34,11 +34,18 @@
                     android:src="@drawable/logo_instagram" />
 
                 <ImageButton
+
+                    android:id="@+id/bt_notification"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="180dp"
+
                     android:id="@+id/imageButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginTop="18dp"
                     android:layout_marginStart="190dp"
+
                     android:background="@color/white"
                     android:scaleType="fitXY"
                     android:src="@drawable/icon_heart" />
