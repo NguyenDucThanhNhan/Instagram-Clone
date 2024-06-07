@@ -1,38 +1,60 @@
 package com.ltdd.instagramclone.model;
 
 public class Story {
-    private String storyId;
-    private String storyPublisherId;
-    private String imageUrl;
-    //Âm thanh nữa nếu có thể
+    private String imageurl;
+    private long timestart;
+    private long timeend;
+    private String storyid;
+    private String userid;
+    public Story(){
 
-    public Story(String storyId, String storyPublisherId, String imageUrl) {
-        this.storyId = storyId;
-        this.storyPublisherId = storyPublisherId;
-        this.imageUrl = imageUrl;
     }
 
-    public String getStoryId() {
-        return storyId;
+    public Story(String imageurl, long timestart, long timeend, String storyid, String userid) {
+        this.imageurl = imageurl;
+        this.timestart = timestart;
+        this.timeend = timeend;
+        this.storyid = storyid;
+        this.userid = userid;
     }
 
-    public void setStoryId(String storyId) {
-        this.storyId = storyId;
+    public String getImageurl() {
+        return imageurl;
     }
 
-    public String getStoryPublisherId() {
-        return storyPublisherId;
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
-    public void setStoryPublisherId(String storyPublisherId) {
-        this.storyPublisherId = storyPublisherId;
+    public long getTimestart() {
+        return timestart;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setTimestart(long timestart) {
+        this.timestart = timestart;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public long getTimeend() {
+        return timeend;
+    }
+
+    public void setTimeend(long timeend) {
+        this.timeend = timeend;
+    }
+
+    public String getStoryid() {
+        return storyid;
+    }
+
+    public void setStoryid(String storyid) {
+        this.storyid = storyid;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }
