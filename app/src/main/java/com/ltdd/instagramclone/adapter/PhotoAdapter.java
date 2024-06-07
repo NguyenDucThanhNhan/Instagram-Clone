@@ -61,14 +61,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         holder.caption.setText(photo.getCaption());
         holder.time.setText(TimeUtils.getTimeAgo(photo.getDate_created()));
 
-        if (photo.getTags().equals("")) {
-            holder.tag.setVisibility(View.GONE);
-        }
-        else {
-            holder.tag.setVisibility(View.VISIBLE);
-            holder.tag.setText(photo.getTags());
-
-        }
+//        if (photo.getTags().equals("")) {
+//            holder.tag.setVisibility(View.GONE);
+//        }
+//        else {
+//            holder.tag.setVisibility(View.VISIBLE);
+//            holder.tag.setText(photo.getTags());
+//
+//        }
 
 
         publisherInfo(holder.image_profile,holder.image_profile2 ,holder.username
@@ -184,7 +184,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             tv_comment = itemView.findViewById(R.id.tv_comment);
             likes = itemView.findViewById(R.id.likes);
             comments = itemView.findViewById(R.id.comments);
-            tag = itemView.findViewById(R.id.tag);
+            //tag = itemView.findViewById(R.id.tag);
             caption = itemView.findViewById(R.id.caption);
             time = itemView.findViewById(R.id.time_posted);
             image_heart=itemView.findViewById(R.id.image_heart);
@@ -200,7 +200,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             @Override
             public void onDataChange (@NonNull DataSnapshot dataSnapshot) {
 
-                comments.setText("View All " + dataSnapshot.getChildrenCount() + "Comments");
+                comments.setText("Xem tất cả " + dataSnapshot.getChildrenCount() + " bình luận");
             }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError){
@@ -248,7 +248,7 @@ private void isLikes(String postid, final ImageView imageView) {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                likes.setText(snapshot.getChildrenCount() + " likes");
+                likes.setText(snapshot.getChildrenCount() + " lượt thích");
             }
 
             @Override
