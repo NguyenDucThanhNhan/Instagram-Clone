@@ -22,7 +22,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/baseline_person_24"
                 app:civ_border_color="@color/black"
@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:text="mitch.tabian"
                 android:layout_toRightOf="@+id/image_profile"
                 android:layout_marginLeft="10dp"
@@ -55,7 +55,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="306dp"
             android:layout_below="@id/relLayout1"
             android:scaleType="centerCrop" />
 
@@ -64,8 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_below="@+id/post_image"
-            android:background="@color/white"
-            android:layout_marginTop="8dp">
+            android:background="@color/white">
 
             <RelativeLayout
                 android:id="@+id/heartLayout"
@@ -84,11 +83,10 @@
 
                 <ImageView
                     android:id="@+id/image_heart"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="20dp"
-
                     android:src="@drawable/icon_heart_white"
                     android:visibility="visible" />
 
@@ -96,8 +94,8 @@
 
             <ImageView
                 android:id="@+id/speech_bubble"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/heartLayout"
@@ -107,21 +105,21 @@
             <ImageView
                 android:id="@+id/icon_fly"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="43dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/speech_bubble"
                 android:src="@drawable/icon_fly"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/icon_save"
-                android:layout_width="30dp"
+                android:layout_width="51dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="195dp"
+                android:layout_marginLeft="174dp"
                 android:layout_toRightOf="@+id/icon_fly"
                 android:src="@drawable/icon_save"
-                android:visibility="gone" />
+                android:visibility="visible" />
             />
         </RelativeLayout>
 
@@ -131,8 +129,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/relLayout2"
             android:background="@color/white"
-            android:padding="12dp">
-
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/likes"
@@ -140,40 +137,47 @@
                 android:layout_height="wrap_content"
                 android:text="Liked by Mitch, Tom, Mohammed and 30 others"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/likes"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="13dp"
                 android:text="caption"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
-
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/caption"
+                android:layout_marginTop="8dp"
+                android:text="mitch.tabian moutains #earthporn #mountains"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/caption"
-                android:layout_marginTop="12dp"
+                android:layout_below="@+id/tag"
+                android:layout_marginTop="22dp"
                 android:text="View all 3 comments"
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/time_posted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/comments"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:text="3 DAYS AGO"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -182,8 +186,8 @@
                 >
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image_profile2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="69dp"
+                    android:layout_height="48dp"
 
                     android:layout_marginTop="16dp"
                     android:src="@drawable/baseline_person_24"
@@ -194,10 +198,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@+id/image_profile2"
-                    android:layout_marginTop="25dp"
-                    android:text="  Thêm 1 bình luận...."
+                    android:layout_marginTop="30dp"
+                    android:text="Comment...."
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
             </RelativeLayout>
 
 
