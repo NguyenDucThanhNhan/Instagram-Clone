@@ -219,8 +219,8 @@ public class NextActivity extends AppCompatActivity {
                             addPhotoToDatabase(caption, firebaseUrl);
 
                             // Chuyển đến HomeActivity (nếu cần)
-//                Intent intent = new Intent(NextActivity.this, HomeActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(NextActivity.this, HomeScreen.class);
+                startActivity(intent);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

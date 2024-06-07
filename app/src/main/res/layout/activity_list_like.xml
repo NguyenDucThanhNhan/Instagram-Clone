@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity=""
+        android:padding="10dp"
+        android:text="Lượt thích"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_countlikes"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="55dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="Count_Likes"-->
+    <!--        android:layout_below="@id/textView"-->
+    <!--        android:textSize="30sp"-->
+    <!--        android:textStyle="bold" />-->
+
+    <View
+        android:id="@+id/toolbar_border1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@id/textView" />
+
+    <EditText
+        android:id="@+id/edt_search_likes"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background="@drawable/search_bar_background"
+        android:drawableLeft="@drawable/baseline_search_24"
+        android:drawablePadding="8dp"
+        android:hint="Tìm kiếm "
+        android:layout_below="@id/toolbar_border1"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_likes"
+        android:layout_width="match_parent"
+        android:layout_height="683dp"
+        android:layout_below="@+id/edt_search_likes"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="2dp" />
+</RelativeLayout>
