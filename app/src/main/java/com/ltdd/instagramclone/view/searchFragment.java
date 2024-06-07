@@ -1,6 +1,7 @@
 package com.ltdd.instagramclone.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ltdd.instagramclone.R;
 import com.ltdd.instagramclone.adapter.UserAdapter;
 import com.ltdd.instagramclone.model.User;
+import com.ltdd.instagramclone.view.UserProfileScreen;
 
 import java.util.ArrayList;
 
@@ -51,6 +53,15 @@ public class searchFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userAdapter = new UserAdapter(currentUser,Users);
         rv_Users.setAdapter(userAdapter);
+
+        userAdapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() { // Thiết lập OnItemClickListener
+            @Override
+            public void onItemClick(User user) {
+                Intent intent = new Intent(getActivity(), UserProfileScreen.class);
+                intent.putExtra("userId", user.getUserid()); // Truyền userId sang UserProfileActivity
+                startActivity(intent);
+            }
+        });
 
         loadAllUsers();
 
