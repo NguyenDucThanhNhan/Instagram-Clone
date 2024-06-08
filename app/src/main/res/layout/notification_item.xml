@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar1"
-        android:layout_width="102dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/baseline_person_24"
         app:civ_border_color="@android:color/white"
         app:civ_border_width="2dp" />
@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:text="Username"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="bold"></TextView>
 
         <TextView
@@ -39,22 +39,22 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="notification"
-            android:textSize="20dp"></TextView>
+            android:textSize="15dp"></TextView>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="time"
-            android:textSize="20dp"></TextView>
+            android:textSize="15dp"></TextView>
 
     </LinearLayout>
 
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_post"
-        android:layout_width="91dp"
-        android:layout_height="93dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="90dp"
