@@ -80,7 +80,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
 
         publisherInfo(holder.image_profile,holder.image_profile2 ,holder.username
-                , photo.getUser_id());
+                , photo.getUser_id(), holder.usename_post);
 
         isLikes(photo.getPhoto_id(),holder.image_heart);
         nrLikes(holder.likes,photo.getPhoto_id());
@@ -204,6 +204,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         public TextView tag;
         public TextView caption;
         public TextView time;
+        public TextView usename_post;
         public FragmentContainerView FragmentContainerView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -223,6 +224,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             speech_bubble=itemView.findViewById(R.id.speech_bubble);
             FragmentContainerView=itemView.findViewById(R.id.fragmentContainerView4);
             image_profile2 = itemView.findViewById(R.id.image_profile2);
+            usename_post = itemView.findViewById(R.id.tv_username);
         }
     }
     private void getComments (String postid, final TextView comments) {
@@ -290,7 +292,7 @@ private void isLikes(String postid, final ImageView imageView) {
         });
 
     }
-    private void publisherInfo (final ImageView image_profile,final ImageView image_profile2, final TextView username , String userid) {
+    private void publisherInfo (final ImageView image_profile,final ImageView image_profile2, final TextView username , String userid, final TextView username_post) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User").child(userid);
 
         reference.addValueEventListener(new ValueEventListener() {
@@ -302,6 +304,7 @@ private void isLikes(String postid, final ImageView imageView) {
                 Picasso.get().load(user.getImageurl()).into(image_profile);
                 Picasso.get().load(user.getImageurl()).into(image_profile2);
                 username.setText(user.getUsername());
+                username_post.setText(user.getUsername());
 
             }
 
