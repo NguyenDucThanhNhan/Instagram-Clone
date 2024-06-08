@@ -58,6 +58,7 @@ class UserProfileScreen : AppCompatActivity() {
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
