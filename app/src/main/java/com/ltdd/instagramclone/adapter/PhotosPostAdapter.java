@@ -52,7 +52,7 @@ public class PhotosPostAdapter extends RecyclerView.Adapter<PhotosPostAdapter.Vi
                 // Thay đổi fragment bằng DetailPostFragment
                 FragmentActivity activity = (FragmentActivity) context;
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, detailPostFragment)
+                        .replace(R.id.fragmentContainerView5, detailPostFragment)
                         .addToBackStack(null)
                         .commit();
             }

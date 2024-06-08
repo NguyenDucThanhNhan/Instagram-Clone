@@ -66,14 +66,19 @@ class UserProfileScreen : AppCompatActivity() {
                 }
                 R.id.search -> {
                     val searchFragment = searchFragment()
-                    val transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.fragment_container, searchFragment)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.user_profile_fragment, searchFragment)
+                        .addToBackStack(null)
+                        .commit()
+                    binding.fragmentContainerView5.visibility=View.GONE;
                     true
                 }
                 R.id.post -> {
-                    // startActivity(Intent(this, AddActivity::class.java))
+                    val fragment = Gallery()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.user_profile_fragment, fragment)
+                        .addToBackStack(null)
+                        .commit()
                     true
                 }
                 R.id.reels -> {

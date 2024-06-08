@@ -6,6 +6,11 @@
     android:layout_marginTop="30dp"
     android:background="@color/white">
 
+    <FrameLayout
+        android:id="@+id/user_profile_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
     <!-- Phần header -->
     <RelativeLayout
         android:id="@+id/header"
@@ -243,14 +248,7 @@
         android:layout_below="@id/grid_container"
         android:layout_marginTop="10dp"
         />
-
     <!-- Bottom Navigation View -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
-        android:layout_marginBottom="1dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -261,5 +259,11 @@
         app:menu="@menu/bottom_navigation_menu"
         />
     <!-- FrameLayout để chứa Fragment -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Ẩn fragment container ban đầu -->
 
 </RelativeLayout>
