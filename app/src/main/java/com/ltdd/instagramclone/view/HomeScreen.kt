@@ -5,7 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +33,23 @@ class HomeScreen : AppCompatActivity() {
         binding = ActivityHomeScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val email = intent.getStringExtra("EMAIL")
+        val activity = intent.getStringExtra("ACTIVITY")
+        if (activity == "search"){
+            val fragment = searchFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homescreen, fragment)
+                .addToBackStack(null)
+                .commit()
+            binding.fragmentContainerView4.visibility=View.GONE;
+        } else if (activity == "post"){
+            val fragment = Gallery()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homescreen, fragment)
+
+                .addToBackStack(null)
+                .commit()
+            binding.fragmentContainerView4.visibility=View.GONE;
+        }
         //binding.textView.text = email
 
         binding.btnSearch.setOnClickListener {

@@ -61,34 +61,33 @@ class UserProfileScreen : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    startActivity(Intent(this, HomeScreen::class.java))
-                    true
+                    val intent = Intent(this, HomeScreen::class.java)
+                    startActivity(intent)
+                    false
                 }
                 R.id.search -> {
-                    val searchFragment = searchFragment()
-                    val transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.fragment_container, searchFragment)
-                    transaction.addToBackStack(null)
-                    transaction.commit()
-                    true
+                    val intent = Intent(this, HomeScreen::class.java)
+                    intent.putExtra("ACTIVITY", "search")
+                    startActivity(intent)
+                    false
                 }
                 R.id.post -> {
-                    // startActivity(Intent(this, AddActivity::class.java))
-                    true
+                    val intent = Intent(this, HomeScreen::class.java)
+                    intent.putExtra("ACTIVITY", "post")
+                    startActivity(intent)
+                    false
                 }
                 R.id.reels -> {
                     // startActivity(Intent(this, ReelsActivity::class.java))
-                    true
+                    false
                 }
                 R.id.profile -> {
                     startActivity(Intent(this, UserProfileScreen::class.java))
-                    true
+                    false
                 }
                 else -> false
             }
         }
-
-
 
         try {
             imageProfile = findViewById(R.id.profile_image)
