@@ -91,10 +91,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                     addNotifications(user.getUserid());
                 }
-                else
-                {
-
-                } else {
+                 else {
 
                     FirebaseDatabase.getInstance().getReference().child("Follow")
                             .child(currentUser.getUid()).child("following")
